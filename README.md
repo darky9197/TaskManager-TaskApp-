@@ -93,14 +93,5 @@ The project utilizes a **One-to-Many** relationship between the `User` and `Task
 
 ---
 
-## 🛠️ Tech Highlights for the Hackathon
-
-Since you've been preparing for a high-pressure environment like the **HCL Hackathon**, this project showcases your ability to:
-1.  **Handle Security:** Proper implementation of `WebSecurityConfigurerAdapter` (or `SecurityFilterChain`) with JWT filters.
-2.  **State Management:** Managing complex UI states in React that sync with a relational backend.
-3.  **Clean Code:** Using DTOs to separate the persistence layer from the presentation layer—a critical skill for "Pro-Level" development.
-
----
-
 ## 📄 License
 This project is open-source and available under the MIT License.
