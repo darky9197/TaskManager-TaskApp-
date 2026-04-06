@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class JwtService {
-    private static final String SECRET_KEY = "649831E6991F283CCB4FE704AF64EF5F084F212B1242E5DF823B5BC8B0F7E8D71A751B8C61EB98D16958A385D39C6F1C20FC7C6CA950D4D3B4AF71FACBCE6412";
+    private static final String SECRET_KEY = "your_secret_code";
     private static final Long VALIDITY = TimeUnit.MINUTES.toMillis(120);
     private final UserRepository repository;
 
