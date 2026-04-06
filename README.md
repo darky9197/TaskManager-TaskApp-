@@ -1,97 +1,76 @@
-# Pro-Level Task Management & Collaboration System
+# TaskManager-TaskApp (Pro-Level Collaboration System)
 
-A sophisticated full-stack application built to handle complex task workflows, team collaboration, and secure data management. This project demonstrates a production-ready architecture using **Spring Boot** for the backend and **React** for the frontend.
+A sophisticated full-stack task management and team collaboration platform. This system is designed for organizational workflows, allowing Managers to oversee team members, assign tasks, and track real-time progress through a secure, scalable architecture.
 
-## 🛠️ Technical Architecture
+## 🏗️ Technical Architecture
 
 ### Backend (Spring Boot)
-* **Spring Security & JWT:** Implemented stateless authentication for secure API access.
-* **Relational Mapping:** Configured a robust **One-to-Many** relationship between Users and Tasks.
-* **Data Integrity:** Utilized **UUIDs** (Universally Unique Identifiers) for primary keys to enhance security and scalability across distributed systems.
-* **Optimization:** Employed **DTOs (Data Transfer Objects)** to resolve infinite recursion issues during JSON serialization and ensure clean API responses.
-* **Persistence:** Integration with PostgreSQL/MySQL via **Spring Data JPA**.
+* **Security:** Implements **JWT (JSON Web Token)** for stateless authentication and authorization.
+* **Data Integrity:** Uses **UUIDs** (Universally Unique Identifiers) for all primary keys (Users and Tasks) to ensure non-predictable, secure IDs.
+* **API Optimization:** Utilizes **DTOs** (`UserDTO`, `TaskDTO`) to prevent infinite recursion during JSON serialization and to expose only necessary data to the frontend.
+* **Persistence:** Built with **Spring Data JPA** and **MySQL** for robust data management.
 
-### Frontend (React)
-* **Component-Based UI:** Built with reusable React components for a modular dashboard.
-* **State Management:** (Mention if using Redux/Context API) for handling user sessions and task states.
-* **REST Integration:** Seamless communication with the Spring Boot API using Axios.
+### Frontend (React + Vite)
+* **Framework:** Built with **React 18** and **Vite** for a modern, responsive user experience.
+* **State Management:** Uses **Context API** (`AuthContext`) for centralized authentication and session management.
+* **Styling:** Custom UI implementation using **Tailwind CSS** and **Material UI** icons.
+* **Routing:** Secure client-side navigation using `react-router-dom` with a custom `ProtectedRoute` component.
 
-## ✨ Key Features
+## 🚀 Key Features
 
-* **Secure Authentication:** Role-based access control with JWT.
-* **Advanced Task Management:** Create, assign, and track tasks with persistent UUID referencing.
-* **Dynamic Dashboard:** Real-time updates on task status and priority levels.
-* **Clean API Design:** Optimized payloads for fast performance and mobile-friendly data structures.
+* **Role-Based Access Control (RBAC):** Distinct workflows for **Managers** and **Employees**.
+* **Manager Dashboard:** View team lists, monitor task status, and assign new responsibilities to employees.
+* **Employee Workspace:** Personal task board to view and manage assigned work.
+* **Task Editor:** Dynamic modal-based interface for creating and editing task details.
+* **Secure Authentication:** Full Sign-In and Sign-Up flows with password encryption and token-based sessions.
 
 ## 📂 Project Structure
 
 ```text
-├── task-manager-backend/    # Spring Boot Application
-│   ├── src/main/java/       # Entities (User, Task), DTOs, Controllers, Security
-│   └── src/main/resources/  # Application properties & Security config
-├── task-manager-frontend/   # ReactJS Application
-│   ├── src/components/      # UI Components
-│   └── src/services/        # API Service layers
-└── README.md
+├── backend/
+│   ├── src/main/java/com/example/backend/
+│   │   ├── configuration/   # Security, JWT, and CORS configs
+│   │   ├── controller/      # REST Endpoints (User, Task, Manager, Employee)
+│   │   ├── model/           # Entities (Users, Task) and DTOs
+│   │   └── service/         # Business logic and JWT services
+│   └── src/main/resources/  # MySQL and environment properties
+└── frontend/
+    ├── src/components/      # UI: Auth, Manage, TaskEditor, Navbar
+    ├── src/context/         # AuthContext for session management
+    ├── src/pages/           # Layouts: Home, Manage, Tasks, Auth
+    └── axios/               # Centralized API configuration (api.js)
 ```
 
 ## ⚙️ Installation & Setup
 
 ### Backend Setup
-1.  Navigate to the backend directory.
-2.  Configure your database credentials in `src/main/resources/application.properties`.
-3.  Run the application:
+1.  Configure your MySQL database in `backend/src/main/resources/application.properties`.
+2.  Set your JWT Secret Key (or use the provided `GenerateKeyTest` to create one).
+3.  Run the application using Maven:
     ```bash
     ./mvnw spring-boot:run
     ```
 
 ### Frontend Setup
-1.  Navigate to the frontend directory.
+1.  Navigate to the `frontend` directory.
 2.  Install dependencies:
     ```bash
     npm install
     ```
-3.  Start the development server:
+3.  Start the Vite development server:
     ```bash
-    npm start
+    npm run dev
     ```
 
-## 🚀 Future Roadmap
-* [ ] Real-time notifications using Spring WebFlux/WebSockets.
-* [ ] Deployment via Docker and Kubernetes.
-* [ ] Integration of Deepfake detection for user profile verification (Project-specific expansion).
+## 🚦 API Endpoints (Samples)
 
-## API Endpoints Overview
-
-Following the implementation of your **DTOs** and **UUID-based** relationships, here is the documented API structure for your system.
-
-### Authentication & User Management
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| `POST` | `/api/auth/signup` | Registers a new user and generates a unique UUID. |
-| `POST` | `/api/auth/login` | Authenticates user and returns a JWT. |
-| `GET` | `/api/users/me` | Retrieves current user profile using Security Context. |
-
-### Task Management
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `POST` | `/api/tasks` | Creates a new task linked to the authenticated User's UUID. |
-| `GET` | `/api/tasks` | Fetches all tasks for the logged-in user (filtered via DTO). |
-| `GET` | `/api/tasks/{id}` | Retrieves specific task details by its UUID. |
-| `PUT` | `/api/tasks/{id}` | Updates task status, priority, or description. |
-| `DELETE` | `/api/tasks/{id}` | Removes a task from the database. |
+| `POST` | `/api/user/register` | User registration. |
+| `POST` | `/api/user/login` | Authentication and JWT issuance. |
+| `GET` | `/api/manager/employees`| Fetch team members (Manager only). |
+| `POST` | `/api/tasks/add` | Create a new task. |
+| `GET` | `/api/employee/tasks` | Fetch tasks assigned to the current employee. |
 
 ---
-
-## 🔧 Database Schema & Relationships
-
-The project utilizes a **One-to-Many** relationship between the `User` and `Task` entities. By using **UUIDs** instead of auto-incrementing integers, we ensure that IDs are non-predictable and easier to manage across different environments.
-
-* **User Entity:** Acts as the "One" side. Contains a `@OneToMany` collection of Tasks.
-* **Task Entity:** Acts as the "Many" side. Contains a `@ManyToOne` join column referencing the User’s UUID.
-* **JSON Recursion Fix:** `@JsonManagedReference` and `@JsonBackReference` (or specialized DTOs) are used to prevent the API from entering an infinite loop when fetching related data.
-
----
-
-## 📄 License
-This project is open-source and available under the MIT License.
+*This project was developed by Pugazhendhi-siva as a high-level demonstration of Full-Stack CRUD and Security principles.*
