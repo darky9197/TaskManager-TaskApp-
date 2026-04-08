@@ -1,4 +1,4 @@
-# TaskManager-TaskApp (Pro-Level Collaboration System)
+# TaskManager-TaskApp
 
 A sophisticated full-stack task management and team collaboration platform. This system is designed for organizational workflows, allowing Managers to oversee team members, assign tasks, and track real-time progress through a secure, scalable architecture.
 
