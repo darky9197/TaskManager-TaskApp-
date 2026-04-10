@@ -30,10 +30,21 @@ const EmployeeList = () => {
   return (
     <InnerContainer>
       <h1 className="title">Employees List</h1>
+      <h3 className="my-4 font-medium">Managers</h3>
       <div className="grid grid-cols-3 gap-3.5">
-        {employees.map((emp) => {
-          return <Employeecard key={emp.userId} {...emp} />;
-        })}
+        {employees
+          .filter((emp) => emp.roles === "MANAGER")
+          .map((emp) => {
+            return <Employeecard key={emp.userId} {...emp} />;
+          })}
+      </div>
+      <h3 className="my-4 font-medium">Employees</h3>
+      <div className="grid grid-cols-3 gap-3.5">
+        {employees
+          .filter((emp) => emp.roles === "EMPLOYEE")
+          .map((emp) => {
+            return <Employeecard key={emp.userId} {...emp} />;
+          })}
       </div>
     </InnerContainer>
   );
